@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Keyboard, Dimensions, StyleSheet} from 'react-native';
+import {View, Keyboard, StyleSheet} from 'react-native';
 
 const KeyboardSpacer = ({onToggle}) => {
   const [keyboardSpace, setKeyboardSpace] = useState(0);
@@ -27,7 +27,7 @@ const KeyboardSpacer = ({onToggle}) => {
       showListener.remove();
       hideListener.remove();
     };
-  }, []);
+  }, [keyboardSpace, onToggle]);
 
   return <View style={[styles.container, {height: keyboardSpace}]} />;
 };

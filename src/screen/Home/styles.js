@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 12,
   },
+  loading: {
+    marginTop: 50,
+    marginBottom: 15,
+  },
+  loadingText: {textAlign: 'center', color: colors.white, fontSize: 20},
 });
 
 export default styles;
