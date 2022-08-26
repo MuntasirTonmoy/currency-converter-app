@@ -6,6 +6,7 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
 import colors from '../../constant/colors';
@@ -17,15 +18,24 @@ import {ConversionContext} from '../../utilities/ConversionContext';
 const Home = ({navigation}) => {
   const [value, setValue] = useState('1');
   const contextValue = useContext(ConversionContext);
-  const {baseCurrency, quoteCurrency, swapCurrencies, rates, isLoading} =
-    contextValue;
+  const {
+    baseCurrency,
+    quoteCurrency,
+    swapCurrencies,
+    rates,
+    isLoading,
+    error,
+    setReFetch,
+  } = contextValue;
   const [scrollEnable, setScrollEnable] = useState(false);
-  console.log(rates);
 
   return (
     <View style={styles.container}>
       <ScrollView scrollEnabled={scrollEnable}>
         <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+        <TouchableOpacity onPress={() => navigation.navigate('About')}>
+          <Text style={styles.info}>ⓘ</Text>
+        </TouchableOpacity>
         <View style={styles.content} />
         <View style={styles.logoContainer}>
           <Image
@@ -39,6 +49,7 @@ const Home = ({navigation}) => {
             resizeMode="contain"
           />
         </View>
+
         {isLoading ? (
           <View>
             <ActivityIndicator
@@ -48,6 +59,22 @@ const Home = ({navigation}) => {
             />
             <Text style={styles.loadingText}>Please Wait!</Text>
           </View>
+        ) : error ? (
+          <>
+            <Text style={styles.error}>ERROR!</Text>
+            <Text style={styles.loadingText}>
+              {(error.message === 'Network request failed' &&
+                'Please check your Internet connection') ||
+                error.message}
+            </Text>
+            <View style={styles.tryButtonContainer}>
+              <TouchableOpacity
+                style={styles.tryAgain}
+                onPress={() => setReFetch(true)}>
+                <Text style={styles.tryButtonText}>Try Again</Text>
+              </TouchableOpacity>
+            </View>
+          </>
         ) : (
           <>
             <View>
